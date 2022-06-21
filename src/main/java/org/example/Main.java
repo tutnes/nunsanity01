@@ -19,13 +19,14 @@ public class Main {
         System.out.println("Starting program!");
         String sURL = "https://hotell.difi.no/api/json/stavanger/offentligetoalett?"; //just a string
 
-        WebClient webClient = WebClient.create(sURL);
+        /*WebClient webClient = WebClient.create(sURL);
         Mono<String> body = webClient.get().retrieve().bodyToMono(String.class);
         String s = body.block();
         Gson gson = new Gson();
-        Object object = gson.fromJson(s, Object.class);
+        Object object = gson.fromJson(s, Object.class);*/
+        System.out.println(args[0]);
         System.out.println("\n\n\n");
-        System.out.println(object.toString());
+        /*System.out.println(object.toString());*/
 
     }
 }
