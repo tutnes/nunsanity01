@@ -8,35 +8,25 @@ package org.example;
 
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.Gson;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 
 public class Main {
     public static void main(String[] args) throws IOException {
         System.out.println("Hello world!");
+        System.out.println("Starting program!");
         String sURL = "https://hotell.difi.no/api/json/stavanger/offentligetoalett?"; //just a string
 
-        // Connect to the URL using java's native library
-        URL url = new URL(sURL);
-        URLConnection request = url.openConnection();
-        request.connect();
+        WebClient webClient = WebClient.create(sURL);
+        Mono<String> body = webClient.get().retrieve().bodyToMono(String.class);
+        String s = body.block();
+        Gson gson = new Gson();
+        Object object = gson.fromJson(s, Object.class);
+        System.out.println("\n\n\n");
+        System.out.println(object.toString());
 
-        // Convert to a JSON object to print data
-        JsonParser jp = new JsonParser(); //from gson
-        JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent())); //Convert the input stream to a json element
-        JsonObject rootobj = root.getAsJsonObject(); //May be an array, may be an object.
-
-        //String zipcode = rootobj.get("zip_code").getAsString();
-        System.out.println("Hello world!");
-        System.out.println(rootobj.getAsString());
     }
 }
 
